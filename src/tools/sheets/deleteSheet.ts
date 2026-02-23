@@ -17,15 +17,11 @@ export function register(server: FastMCP) {
       sheetId: z
         .number()
         .int()
-        .describe(
-          'The numeric sheet ID to delete. Use getSpreadsheetInfo to find sheet IDs.'
-        ),
+        .describe('The numeric sheet ID to delete. Use getSpreadsheetInfo to find sheet IDs.'),
     }),
     execute: async (args, { log }) => {
       const sheets = await getSheetsClient();
-      log.info(
-        `Deleting sheet ID ${args.sheetId} from spreadsheet ${args.spreadsheetId}`
-      );
+      log.info(`Deleting sheet ID ${args.sheetId} from spreadsheet ${args.spreadsheetId}`);
 
       try {
         await sheets.spreadsheets.batchUpdate({

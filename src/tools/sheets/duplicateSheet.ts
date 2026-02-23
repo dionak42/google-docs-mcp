@@ -17,9 +17,7 @@ export function register(server: FastMCP) {
       sheetId: z
         .number()
         .int()
-        .describe(
-          'The numeric sheet ID to duplicate. Use getSpreadsheetInfo to find sheet IDs.'
-        ),
+        .describe('The numeric sheet ID to duplicate. Use getSpreadsheetInfo to find sheet IDs.'),
       newSheetName: z
         .string()
         .min(1)

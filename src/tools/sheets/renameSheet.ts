@@ -17,13 +17,8 @@ export function register(server: FastMCP) {
       sheetId: z
         .number()
         .int()
-        .describe(
-          'The numeric sheet ID to rename. Use getSpreadsheetInfo to find sheet IDs.'
-        ),
-      newName: z
-        .string()
-        .min(1)
-        .describe('The new name for the sheet.'),
+        .describe('The numeric sheet ID to rename. Use getSpreadsheetInfo to find sheet IDs.'),
+      newName: z.string().min(1).describe('The new name for the sheet.'),
     }),
     execute: async (args, { log }) => {
       const sheets = await getSheetsClient();

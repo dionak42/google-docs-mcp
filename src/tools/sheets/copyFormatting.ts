@@ -15,20 +15,21 @@ export function register(server: FastMCP) {
         .describe(
           'The spreadsheet ID — the long string between /d/ and /edit in a Google Sheets URL.'
         ),
-      sourceSheetName: z
-        .string()
-        .min(1)
-        .describe('Source sheet/tab name (e.g., "Sheet1").'),
+      sourceSheetName: z.string().min(1).describe('Source sheet/tab name (e.g., "Sheet1").'),
       sourceRange: z
         .string()
-        .describe('A1 notation for the source range (e.g., "A1:D10"). Do not include the sheet name — use sourceSheetName instead.'),
+        .describe(
+          'A1 notation for the source range (e.g., "A1:D10"). Do not include the sheet name — use sourceSheetName instead.'
+        ),
       destinationSheetName: z
         .string()
         .min(1)
         .describe('Destination sheet/tab name (e.g., "Sheet2").'),
       destinationRange: z
         .string()
-        .describe('A1 notation for the destination range (e.g., "A1:D10"). Do not include the sheet name — use destinationSheetName instead.'),
+        .describe(
+          'A1 notation for the destination range (e.g., "A1:D10"). Do not include the sheet name — use destinationSheetName instead.'
+        ),
     }),
     execute: async (args, { log }) => {
       const sheets = await getSheetsClient();
