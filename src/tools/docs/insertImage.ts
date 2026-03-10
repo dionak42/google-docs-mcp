@@ -94,7 +94,6 @@ export function register(server: FastMCP) {
             drive,
             args.localImagePath,
             parentFolderId,
-            true // skipPublicSharing
           );
 
           log.info(

@@ -924,18 +924,13 @@ export async function insertInlineImage(
 /**
  * Uploads a local image file to Google Drive.
  *
- * When `skipPublicSharing` is false (default), the file is made publicly
- * readable and its webContentLink is returned — required for the Docs API
- * insertInlineImage approach.
- *
- * When `skipPublicSharing` is true, only the Drive file ID is returned.
- * Use this with the Apps Script insertion path where no public URL is needed.
+ * The file inherits sharing permissions from its parent folder or Shared Drive.
+ * No public sharing is applied.
  */
 export async function uploadImageToDrive(
   drive: any, // drive_v3.Drive type
   localFilePath: string,
   parentFolderId?: string,
-  skipPublicSharing: boolean = false
 ): Promise<string> {
   const fs = await import('fs');
   const path = await import('path');
@@ -984,19 +979,8 @@ export async function uploadImageToDrive(
     throw new Error('Failed to upload image to Drive - no file ID returned');
   }
 
-  if (skipPublicSharing) {
-    return fileId;
-  }
-
-  await drive.permissions.create({
-    fileId: fileId,
-    requestBody: {
-      role: 'reader',
-      type: 'anyone',
-    },
-    supportsAllDrives: true,
-  });
-
+  // Return the file ID directly. We never make uploaded files publicly
+  // accessible -- the Shared Drive already controls access.
   const fileInfo = await drive.files.get({
     fileId: fileId,
     fields: 'webContentLink',
@@ -1005,7 +989,7 @@ export async function uploadImageToDrive(
 
   const webContentLink = fileInfo.data.webContentLink;
   if (!webContentLink) {
-    throw new Error('Failed to get public URL for uploaded image');
+    throw new Error('Failed to get content link for uploaded image');
   }
 
   return webContentLink;
